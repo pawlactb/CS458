@@ -28,25 +28,25 @@
 
 ;no Class is assigned more than one period
 ;Class 1
-(assert (and p11 (not (or p12 p13 p14))))
-(assert (and p12 (not (or p11 p13 p14))))
-(assert (and p13 (not (or p12 p11 p14))))
-(assert (and p14 (not (or p12 p13 p11))))
+(assert (=> p11 (not (or p12 p13 p14))))
+(assert (=> p12 (not (or p11 p13 p14))))
+(assert (=> p13 (not (or p12 p11 p14))))
+(assert (=> p14 (not (or p12 p13 p11))))
 ;Class 2
-(assert (and p21 (not (or p22 p23 p24))))
-(assert (and p22 (not (or p21 p23 p24))))
-(assert (and p23 (not (or p22 p21 p24))))
-(assert (and p24 (not (or p22 p23 p21))))
+(assert (=> p21 (not (or p22 p23 p24))))
+(assert (=> p22 (not (or p21 p23 p24))))
+(assert (=> p23 (not (or p22 p21 p24))))
+(assert (=> p24 (not (or p22 p23 p21))))
 ;Class 3
-(assert (and p31 (not (or p32 p33 p34))))
-(assert (and p32 (not (or p31 p33 p34))))
-(assert (and p33 (not (or p32 p31 p34))))
-(assert (and p34 (not (or p32 p33 p31))))
+(assert (=> p31 (not (or p32 p33 p34))))
+(assert (=> p32 (not (or p31 p33 p34))))
+(assert (=> p33 (not (or p32 p31 p34))))
+(assert (=> p34 (not (or p32 p33 p31))))
 ;Class 4
-(assert (and p41 (not (or p42 p43 p44))))
-(assert (and p42 (not (or p41 p43 p44))))
-(assert (and p43 (not (or p42 p41 p44))))
-(assert (and p44 (not (or p42 p43 p41))))
+(assert (=> p41 (not (or p42 p43 p44))))
+(assert (=> p42 (not (or p41 p43 p44))))
+(assert (=> p43 (not (or p42 p41 p44))))
+(assert (=> p44 (not (or p42 p43 p41))))
 
 ;Class 4 does not occur at the same time as Class 2
 (assert (not (or (and p41 p21) (and p42 p22) (and p43 p23) (and p44 p24))))
@@ -68,9 +68,13 @@
 
 (check-sat)
 (get-model)
-;TODO: Add output explanation
+; The scheduling problem is solved by having courses as follows:
+; Class 1: Period 2
+; Class 2: Period 3
+; Class 3: Period 2
+; Class 4: Period 4
 
 (assert (not p44))
 
 (check-sat)
-;TODO: Add output explanation
+; By stipulating that Class 4 is in period 4, there is no schedule that fits our criteria.
