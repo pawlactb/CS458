@@ -23,8 +23,7 @@
 ;All Classes assigned a period
 (assert (or p11 p12 p13 p14))
 (assert (or p21 p22 p23 p24))
-;Class 3 is not in the 1st period
-(assert (or (not p31) p32 p33 p34))
+(assert (or p31 p32 p33 p34))
 (assert (or p41 p42 p43 p44))
 
 ;no Class is assigned more than one period
@@ -53,27 +52,19 @@
 (assert (not (or (and p41 p21) (and p42 p22) (and p43 p23) (and p44 p24))))
 
 ;Class 3 occurs before Class 4.
-;Class 3 is 1st period
-(assert (or (and p31 p42) (and p31 p43)))
-(assert (or (and p31 p43) (and p31 p44)))
-;Class 3 is 2nd period
-(assert (or (and p32 p43) (and p32 p44)))
-;Class 3 is 3rd period
-(assert (and p33 p44))
+(assert (or (and p31 (or p42 p43 p44)) (and p32 (or p43 p44 )) (and p33 p44)))
 
 ;Class 1 directly precedes Class 2
-;Class 1 is period 1
-(assert (and p11 p22))
-;Class 1 is period 2
-(assert (and p12 p23))
-;Class 1 is period 3
-(assert (and p13 p24))
+(assert (or (and p11 p22) (and p12 p23) (and p13 p24)))
+
 ;Class 1 cannot be in period 4
 (assert (not p14))
 
 ;Class 3 is at the same time as Class 1
 (assert (or (and p11 p31) (and p12 p32) (and p13 p33) (and p14 p34)))
 
+;Class 3 is not in the first period
+(assert (not p31))
 
 (check-sat)
 (get-model)
